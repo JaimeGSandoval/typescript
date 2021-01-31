@@ -1,2 +1,2 @@
 # Typescript
-A repoto leanr and practice Typescript
+A repo to learn and practice Typescript
