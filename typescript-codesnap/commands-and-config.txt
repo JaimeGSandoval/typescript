@@ -1,0 +1,50 @@
+// TO COMPILE THE TYPESCRIPT FILES TO JAVASCRIPT FILES AND COMPILE THEM TO BUILD DIRECTORY
+   - npx tsc
+
+// TO RUN COMPILING IN WATCH MODE
+   - npx tsc -w
+
+
+// CONFIGURATION TO COMPILE TYPESCRIPT FILES TO JAVASCRIPT FILES AND COMPILE THEM TO BUILD DIRECTORY
+
+tsconfig.json
+
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "./build"
+  }
+}
+
+
+// COMMAND TO INSTALL ALL DEV DEPENDENCIES: ES LINT, PRETTIER, PARSER AND PLUGINS
+   - "npm i --save-dev @typescript-eslint/eslint-plugin @typescript-eslint/parser es-lint eslint-config-prettier es-lint-plugin-prettier prettier"
+
+
+// EXAMPLE OF PACKAGE.JSON DEV DEPENDENCIES
+     "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1",
+    "typescript": "^4.1.3"
+  }
+
+
+// CONFIGURATION FOR ESLINT
+
+eslint.rc
+
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ]
+}
