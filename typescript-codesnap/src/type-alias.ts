@@ -15,8 +15,20 @@
 
 // Second Example
 type StringOrNumber = string | number;
+type StockCount = number;
 
-let numberOfItemsInStock: number = 500;
+type Shirt = {
+  name: string;
+  numberInStock: number;
+}
+
+let myNewShirt: Shirt = {
+  name: "blue shirt",
+  numberInStock: 10
+}
+
+let numberOfShirtsInStock: StockCount = 500;
+let numberOfPantsInStock: StockCount = 250;
 
 let typesCityPopulation: StringOrNumber = 14000000;
 typesCityPopulation = "Fourteen million";
