@@ -1,8 +1,11 @@
+// COMMAND TO INSTALL ALL DEV DEPENDENCIES: ES LINT, PRETTIER, PARSER AND PLUGINS
+   npm i --save-dev @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier eslint-plugin-prettier prettier
+
 // TO COMPILE THE TYPESCRIPT FILES TO JAVASCRIPT FILES AND COMPILE THEM TO BUILD DIRECTORY
-   - npx tsc
+     npx tsc
 
 // TO RUN COMPILING IN WATCH MODE
-   - npx tsc -w
+     npx tsc -w
 
 
 // NPM COMMAND TO INSTALL THE @TSCONFIG/RECOMMENDED NPM PACKAGE
@@ -20,12 +23,6 @@ tsconfig.json
     "outDir": "./build"
   }
 }
-
-
-
-// COMMAND TO INSTALL ALL DEV DEPENDENCIES: ES LINT, PRETTIER, PARSER AND PLUGINS
-   - "npm i --save-dev @typescript-eslint/eslint-plugin @typescript-eslint/parser es-lint eslint-config-prettier es-lint-plugin-prettier prettier"
-
 
 // EXAMPLE OF PACKAGE.JSON DEV DEPENDENCIES
      "devDependencies": {
