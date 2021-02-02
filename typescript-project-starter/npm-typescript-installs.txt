@@ -1,0 +1,32 @@
+1. INSTALL LATEST VERSION OF TYPESCRIPT
+
+   npm install --save-dev typescript@latest
+
+2. CREATE tsconfig.json FILE AND PLACE THESE CONFIGS IN TO INSTALL
+
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "rootDir": "./src",
+    "outDir": "./build"
+  },
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Recommended"
+}
+
+3. INSTALL tsconfig.json RECOMMENDED NPM PACKAGE
+
+   npm install --save-dev @tsconfig/recommended
+
+4. INSTALL NPM DEV DEPENDENCIES FOR ESLINT
+
+   npm i --save-dev @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint
+
+5. INSTALL NPM DEV DEPENDENCIES FOR PRETTIER
+   npm i --save-dev eslint-config-prettier eslint-plugin-prettier prettier
