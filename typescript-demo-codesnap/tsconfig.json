@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "rootDir": "./src",
+    "outDir": "./build",
+    "lib": ["ES2020", "DOM"],
+    "strict": true
+  }
+}
