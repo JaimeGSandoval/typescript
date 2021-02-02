@@ -1,0 +1,39 @@
+// NPM COMMAND TO INSTALL THE @TSCONFIG/RECOMMENDED NPM PACKAGE
+
+npm install --save-dev @tsconfig/recommended
+
+
+// THIS MUST BE ADDED TO THE TSCONFIG.json
+
+"extends": "@tsconfig/recommended/tsconfig.json"
+
+// DEV DEPENDENCIES THAT COME FROM NPM PACKAGE
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Recommended"
+}
+
+
+// FULL VERSION
+
+{
+"extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Recommended"
+}

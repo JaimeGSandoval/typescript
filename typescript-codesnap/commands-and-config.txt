@@ -5,16 +5,22 @@
    - npx tsc -w
 
 
+// NPM COMMAND TO INSTALL THE @TSCONFIG/RECOMMENDED NPM PACKAGE
+
+npm install --save-dev @tsconfig/recommended
+
+
 // CONFIGURATION TO COMPILE TYPESCRIPT FILES TO JAVASCRIPT FILES AND COMPILE THEM TO BUILD DIRECTORY
 
 tsconfig.json
 
 {
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDir": "./src",
     "outDir": "./build"
   }
 }
+
 
 
 // COMMAND TO INSTALL ALL DEV DEPENDENCIES: ES LINT, PRETTIER, PARSER AND PLUGINS
