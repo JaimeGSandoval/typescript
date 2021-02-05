@@ -4,6 +4,12 @@
 
 2. CREATE tsconfig.json FILE AND PLACE THESE CONFIGS IN TO INSTALL
 
+// a tsconfig.json can also be created with 'tsc --init' and it will produce a tsconfig.json that has all the options for configuring the typescript compiler.
+
+// TO RUN THE COMPLIER FROM THE TERMINAL USE THIS COMMAND
+   'tsc'
+
+// CUSTOM CONFIG
 {
   "extends": "@tsconfig/recommended/tsconfig.json",
   "compilerOptions": {
