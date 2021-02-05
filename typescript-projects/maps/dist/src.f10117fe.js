@@ -116199,7 +116199,9 @@ Object.defineProperty(exports, "__esModule", {
 exports.User = void 0;
 
 var faker_1 = __importDefault(require("faker")); // had to install @type/faker to be able to import faker
-// npm install @types/faker
+// BY USING 'implements Mappable' ON THE 'User' CLASS WE'RE SAYING WE WANT TO MAKE SURE THAT THE INSTANCE OF CLASS 'User' SATISFIES ALL THE PROPERTIES REQUIRED BY THE MAPPABLE INTERFACE. THIS SETS UP A DIRECT DEPENDENCY BETWEEN OUR 'user' CLASS AND THE 'customMap' FILE. BY ADDING 'implements Mappable' TYPESCRIPT HELPS US MAKE SURE user HAS ALL THE PROPERTIES SPECIFIED BY 'Mappable'. IT HELPS PINPOINT THE ERRORS.
+// THIS IS 100% OPTIONAL. IT'S JUST TO TELL OTHER DEVS THAT THE user SHOULD BE MAPPABLE.
+// YOU COULD LEAVE OUT THE 'implements Mappable' AND IT WOULD STILL WORK, JUST ASS LONG AS THE CLASS USING THE Mappable INTERFACE HAS THE PROPERTIES IT'S ASKING FOR
 
 
 var User =
@@ -116211,10 +116213,11 @@ function () {
       lat: parseFloat(faker_1.default.address.latitude()),
       lng: parseFloat(faker_1.default.address.longitude())
     };
+    this.color = 'blue';
   }
 
   User.prototype.markerContent = function () {
-    return "\n    <h1>User Name: " + this.name + "</h1>\n    ";
+    return "\n    <h1>User Name: " + this.name + "</h1>\n    <h2>Fave Color: " + this.color + "</h2>\n    ";
   };
 
   return User;
@@ -116247,10 +116250,11 @@ function () {
       lat: parseFloat(faker_1.default.address.latitude()),
       lng: parseFloat(faker_1.default.address.longitude())
     };
+    this.color = 'green';
   }
 
   Company.prototype.markerContent = function () {
-    return "\n    <div>\n    <h1>Company Name: " + this.name + "</h1>\n    <h3>Catchphrase: " + this.catchPhrase + "</h3>\n    </div>\n    ";
+    return "\n    <div>\n    <h1>Company Name: " + this.name + "</h1>\n    <h3>Catchphrase: " + this.catchPhrase + "</h3>\n    <h2>Fave Color: " + this.color + "</h2>\n    </div>\n    ";
   };
 
   return Company;
@@ -116349,7 +116353,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51331" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50402" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

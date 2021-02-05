@@ -1,9 +1,10 @@
 // INSTRUCTIONS TO EVERY OTHER CLASS ON HOW THEY CAN BE AN ARGUMENT TO 'addMarker()'
-interface Mappable {
+export interface Mappable {
    location: {
      lat: number;
      lng: number;
-   }
+    }
+    color: string;
 
    markerContent(): string;
 }
@@ -23,7 +24,7 @@ export class CustomMap {
 
 // ADD MARKER CAN TAKE ANY ARGUMENT SO LONG AS IT MEETS THE REQUIREMENTS OF THE MAPPABLE INTERFACE,
 // MEANING THAT THE ARGUMENT MUST HAVE A 'location' PROPERTY THAT'S AN OBJECT AND THE 'location' OBJECT MUST HAVE A 'lat' PROPERTY THAT'S A NUMBER AND A 'lng' PROPERTY THAT A NUMBER. ASS LONG AS THEY SATISFY THE MAPPABLE INTERFACE, IT CAN BE AN ARGUMENT FOR addMarker()
-   addMarker(mappable: Mappable): void {
+   public addMarker(mappable: Mappable): void {
      const marker = new google.maps.Marker({
         map: this.googleMap,
         position: {
