@@ -26,11 +26,9 @@
 // }
 
 
-
-// SAME CODE AS ABOVE BUT NO NOTES
+// SAME AS ABOVE BUT WITH NO NOTES
 export class NumbersCollection {
   constructor(public data: number[]) {}
-
   get length(): number {
     return this.data.length;
   }

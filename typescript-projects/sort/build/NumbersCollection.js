@@ -23,7 +23,7 @@ exports.NumbersCollection = void 0;
 //       this.data[rightIndex] = leftHand;
 //   }
 // }
-// SAME CODE AS ABOVE BUT NO NOTES
+// SAME AS ABOVE BUT WITH NO NOTES
 var NumbersCollection = /** @class */ (function () {
     function NumbersCollection(data) {
         this.data = data;

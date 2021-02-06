@@ -2,9 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Sorter_1 = require("./Sorter");
 var NumbersCollection_1 = require("./NumbersCollection");
-// NumbersCollection has the functionality to compare and swap number types
-var numbersCollection = new NumbersCollection_1.NumbersCollection([10, 3, -7, 0]);
-var sorter = new Sorter_1.Sorter(numbersCollection);
-// sort() calls the compare() and swap() methods that exist on NumbersCollection
-sorter.sort();
+var Characters_Collection_1 = require("./Characters-Collection");
+var LinkedList_1 = require("./LinkedList");
+var numbersCollection = new NumbersCollection_1.NumbersCollection([50, 3, -7, 0]);
+var numberSorter = new Sorter_1.Sorter(numbersCollection);
+numberSorter.sort();
+var charactersCollection = new Characters_Collection_1.CharactersCollection('Xaayb');
+var stringSorter = new Sorter_1.Sorter(charactersCollection);
+stringSorter.sort();
+var linkedList = new LinkedList_1.LinkedList();
+linkedList.add(500);
+linkedList.add(-10);
+linkedList.add(-3);
+linkedList.add(4);
+var linkedListSorter = new Sorter_1.Sorter(linkedList);
+linkedListSorter.sort();
 console.log(numbersCollection.data);
+console.log(charactersCollection.data);
+linkedList.print();
