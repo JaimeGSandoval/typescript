@@ -1,25 +1,11 @@
-class Sorter {
-  constructor(public collection: number[] | string) {
-    }
-  sort(): void {
-    const { length } = this.collection;
+import { Sorter } from './Sorter';
+import { NumbersCollection } from './NumbersCollection';
 
+// NumbersCollection has the functionality to compare and swap number types
+const numbersCollection = new NumbersCollection([10, 3, -7, 0]);
 
-    // Only works for an array of numbers
-    for(let i = 0; i < length; i++) {
-      for(let j = 0; j < length - i - 1; j++) {
-        if(this.collection instanceof Array) {
-          if(this.collection[j] > this.collection[j + 1]) {
-            const leftHand = this.collection[j]; // temp is greater than
-            this.collection[j] = this.collection[j + 1];
-            this.collection[j + 1] = leftHand;
-          }
-        }
-      }
-    }
-  }
-}
+const sorter = new Sorter(numbersCollection);
 
-const sorter = new Sorter([10, 3, -5, 0]);
+// sort() calls the compare() and swap() methods that exist on NumbersCollection
 sorter.sort();
-console.log(sorter.collection);
+console.log(numbersCollection.data);
