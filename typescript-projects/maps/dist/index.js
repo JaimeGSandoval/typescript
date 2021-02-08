@@ -5,6 +5,8 @@
 //
 // anything defined in a previous bundle is accessed via the
 // orig method which is the require for previous bundles
+
+console.log('yo')
 parcelRequire = (function (modules, cache, entry, globalName) {
   // Save the require from previous bundle to this closure if any
   var previousRequire = typeof parcelRequire === 'function' && parcelRequire;

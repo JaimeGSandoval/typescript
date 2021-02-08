@@ -1,0 +1,18 @@
+1. Initialize tsconfig.json
+
+   tsc --init
+
+2. Initialize package.json
+
+   npm init -y
+
+3. Install typescript locally as a dev dependency
+
+   npm i --save-dev typescript
+
+4. Install webpack dev dependencies
+   // ts-loader is what transforms typescript to javascript
+
+   npm i --save-dev webpack webpack-cli ts-loader webpack-dev-server
+
+5. Config webpack

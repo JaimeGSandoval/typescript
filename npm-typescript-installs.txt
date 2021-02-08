@@ -36,3 +36,6 @@
 
 5. INSTALL NPM DEV DEPENDENCIES FOR PRETTIER
    npm i --save-dev eslint-config-prettier eslint-plugin-prettier prettier
+
+6. INSTALL PARCEL BUNDLER
+   npm i --save-dev parcel-bundler
