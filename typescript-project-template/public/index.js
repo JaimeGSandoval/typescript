@@ -52,13 +52,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var konohamaru = new _ninjas_Chuunin__WEBPACK_IMPORTED_MODULE_0__.Chuunin('Saratobi', 'Konohamaru', 'Chuunin', 20);
 var konohamaruText = document.querySelector('.konohamaru');
-konohamaruText.textContent = "My name is " + konohamaru.firstName + " " + konohamaru.lastName + ".\nMy ninja rank is " + konohamaru.rank + ". I am " + konohamaru.age + " years old.";
+konohamaruText.textContent = konohamaru.textDescription();
 var gai = new _ninjas_Jounin__WEBPACK_IMPORTED_MODULE_1__.Jounin('Might', 'Guy', 'Jounin', 35, true);
 var gaiText = document.querySelector('.gai');
-gaiText.textContent = "My name is " + gai.firstName + " " + gai.lastName + ".\nMy ninja rank is " + gai.rank + ". I am " + gai.age + " years old. It is " + gai.eightGates + " that I have unlocked the 8 gates.";
+gaiText.textContent = gai.textDescription();
 var kakashi = new _ninjas_Hokage__WEBPACK_IMPORTED_MODULE_2__.Hokage('Hatake', 'Kakashi', 'Hokage', 35, 6);
 var kakashiText = document.querySelector('.kakashi');
-kakashiText.textContent = "My name is " + kakashi.firstName + " " + kakashi.lastName + ".\nI am the " + kakashi.kageNumber + "th " + kakashi.rank + ". I am " + kakashi.age + " years old.";
+kakashiText.textContent = kakashi.textDescription();
 
 
 /***/ }),
@@ -80,9 +80,13 @@ var Chuunin = /** @class */ (function () {
         this.rank = rank;
         this.age = age;
     }
+    Chuunin.prototype.textDescription = function () {
+        return "My name is " + this.firstName + " " + this.lastName + ".\nMy ninja rank is " + this.rank + ". I am " + this.age + " years old.";
+    };
     return Chuunin;
 }());
 
+// konohamaruText.textContent = `My name is ${konohamaru.firstName} ${konohamaru.lastName}.\nMy ninja rank is ${konohamaru.rank}. I am ${konohamaru.age} years old.`;
 
 
 /***/ }),
@@ -105,6 +109,9 @@ var Hokage = /** @class */ (function () {
         this.age = age;
         this.kageNumber = kageNumber;
     }
+    Hokage.prototype.textDescription = function () {
+        return "My name is " + this.firstName + " " + this.lastName + ".\nI am the " + this.kageNumber + "th " + this.rank + ". I am " + this.age + " years old.";
+    };
     return Hokage;
 }());
 
@@ -130,6 +137,9 @@ var Jounin = /** @class */ (function () {
         this.age = age;
         this.eightGates = eightGates;
     }
+    Jounin.prototype.textDescription = function () {
+        return "My name is " + this.firstName + " " + this.lastName + ".\nMy ninja rank is " + this.rank + ". I am " + this.age + " years old. It is " + this.eightGates + " that I have unlocked the 8 gates.";
+    };
     return Jounin;
 }());
 

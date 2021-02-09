@@ -49,15 +49,22 @@ import { INinja } from './ninjas/INinja';
 
 const konohamaru: INinja = new Chuunin('Saratobi', 'Konohamaru', 'Chuunin', 20);
 const konohamaruText = document.querySelector('.konohamaru') as HTMLHeadingElement;
-
-konohamaruText.textContent = `My name is ${konohamaru.firstName} ${konohamaru.lastName}.\nMy ninja rank is ${konohamaru.rank}. I am ${konohamaru.age} years old.`;
+// konohamaruText.textContent = konohamaru.textDescription();
 
 const gai: INinja = new Jounin('Might', 'Guy', 'Jounin', 35, true);
 const gaiText = document.querySelector('.gai') as HTMLHeadingElement;
 
-gaiText.textContent = `My name is ${gai.firstName} ${gai.lastName}.\nMy ninja rank is ${gai.rank}. I am ${gai.age} years old. It is ${gai.eightGates} that I have unlocked the 8 gates.`;
+
+// gaiText.textContent = gai.textDescription();
 
 const kakashi: INinja = new Hokage('Hatake', 'Kakashi', 'Hokage', 35, 6);
 const kakashiText = document.querySelector('.kakashi') as HTMLHeadingElement;
 
-kakashiText.textContent = `My name is ${kakashi.firstName} ${kakashi.lastName}.\nI am the ${kakashi.kageNumber}th ${kakashi.rank}. I am ${kakashi.age} years old.`;
+// kakashiText.textContent = kakashi.textDescription();
+
+const ninjas: INinja[] = [konohamaru, gai, kakashi];
+// const ninjaText = [konohamaruText, gaiText, kakashiText];
+
+// ninjas.forEach((ninja, ninjaText) => {
+//   ninjaText.textContent = ninja.textDescription();
+// });
