@@ -78,3 +78,4 @@ function removeTodoListItem(itemToRemove) {
     // apply the todo list filter
     filterTodoList();
 }
+//# sourceMappingURL=todo-it.js.map

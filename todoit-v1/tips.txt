@@ -9,8 +9,4 @@
 -- The main (unsafe) alternative to using filter is to use splice (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice) instead, but, as we mentioned, it really is unsafe. Basically, splice is also slower, creates garbage and is error-prone. More than enough reasons to simply forget about it!
 
 
--- Resume (F8): Let the program continue.
-Step over next function call (F10): Continue the execution of the next function without going into it.
-Step into next function call (F11): Continue the execution of the next function and go into it.
-Step out of current function (Shift + F11): Get out of the current function.
-Step (F9): Continue to the next statement.
+-- WSL lets you run a Linux environment -- including command-line tools and applications -- directly on Windows, without the overhead of a traditional virtual machine or dualboot setup. WSL especially helps web developers and those working with Bash and Linux-first tools (i.e. Ruby, Python) to use their toolchain on Windows and ensure consistency between development and production environments.
