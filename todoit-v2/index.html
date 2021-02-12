@@ -10,8 +10,17 @@
     <h2>Add new items</h2>
     <p>
       What needs to be done?
-    <input type="text" id="todoInput" title="What should be added to the todo list?" onblur="addTodo()" />
-    <input type="button" value="Add todo" onclick="addTodo()" />
+
+      <!-- All the function calls that we had previously are now replaced by method calls on our instance of TodoIt (our
+      controller). This is lighter and much clearer. -->
+    <input type="text"
+           id="todoInput"
+           title="What should be added to the todo list?"
+           onkeyup="if(EventUtils.isEnter(event)) { todoIt.addTodo() }"
+           onblur="todoIt.addTodo()"
+    />
+
+    <input type="button" value="Add todo" onclick="todoIt.addTodo()" />
     </p>
 
     <h2>Current todo list</h2>
