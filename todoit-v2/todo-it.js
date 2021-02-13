@@ -233,4 +233,13 @@ var EventUtils = /** @class */ (function () {
 }());
 // However, do also consider how easy it will be to test the code. Generally speaking, static elements are harder to test.
 // All the function calls that we had previously are now replaced by method calls on our instance of TodoIt (our controller). This is lighter and much clearer.
+// *************** Wrap Up ****************
+// At this point, your refactoring of TodoIt should be fully functional. Go ahead and give it a try.
+// Also, take some time to observe the console output and explore the objects.
+// If we look at the application from a functional point of view, we haven't changed anything. But we have actually drastically improved the code quality, even if it has doubled the number of lines of code:
+// We now have a solid domain model that uses encapsulation.
+// We have applied the SRP to isolate responsibilities and avoid mixing concerns.
+// We have applied the MVC design pattern to isolate parts of our code, which has helped us respect the LoD.
+// We have applied composition (for example, coding the controller against the view interface).
+// With this structure in place, it actually becomes very easy to modify or extend our application. For instance, if you later decide to add new fields to TodoItem, then you know where to start: adapt the domain model. Then, you can adapt the view and the controller layer. Most importantly, those changes won't require you to change everything again because the structure is SOLID!
 //# sourceMappingURL=todo-it.js.map

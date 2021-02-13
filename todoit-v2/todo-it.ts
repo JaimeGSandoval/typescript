@@ -36,9 +36,11 @@ class TodoItem {
 // If you implement the TodoItem class as we propose, instances of the class will be immutable: Once an instance has been created, you cannot modify it, whether from the inside or from the outside. This is guaranteed because the fields are private and only expose a getter that protects the field from external modifications. In addition, the fields are also read-only, which prevents internal modifications as well. This is a practice that we heavily recommend.
 
 
-// Creating the TodoList class
+// Creating the TodoList class.
 // Now, you can also implement the TodoList class:
 
+// *********** MODEL *************
+// The model is an array of TodoItems
 class TodoList {
     private _todoList: ReadonlyArray<TodoItem> = [];
 
@@ -48,7 +50,7 @@ class TodoList {
         // US/docs/Web/JavaScript/Reference/Global_Objects
         // /Array/isArray
         if(Array.isArray(todoList) && todoList.length) {
-            this._todoList = this._todoList.concat(todoList);
+            this._todoList = this._todoList.concat(todoList);// concat creates a new array
         }
     }
 
@@ -61,13 +63,13 @@ class TodoList {
             // the value is "truthy":
             // not null, not undefined, not NaN, not an empty string,
             // not 0, not false
-            this._todoList = this._todoList.concat(todoItem);
+            this._todoList = this._todoList.concat(todoItem); // concat creates a new array
         }
     }
 
     removeTodo(itemId: string) {
         if(itemId) {
-            this._todoList = this._todoList.filter(item => {
+            this._todoList = this._todoList.filter(item => { // filter creates a new array
                 if(item.identifier === itemId) {
                     return false; // drop
                 } else {
@@ -111,6 +113,7 @@ interface TodoListView {
 
 // Implementing the TodoListView interface
 
+//********** VIEW **********
 class HTMLTodoListView implements TodoListView {
     private readonly todoInput: HTMLInputElement;
     private readonly todoListDiv: HTMLDivElement;
@@ -215,6 +218,7 @@ interface TodoListController {
 
 // As you can see earlier, our controller implementation requires TodoListView to be provided, but it does not care about which specific implementation. This is how you usually want to work with interfaces: by programming against them rather than against implementations. This decouples your code.
 
+// ************ CONTROLLER **************
 class TodoIt implements TodoListController {
     private readonly _todoList: TodoList = new TodoList();
 
