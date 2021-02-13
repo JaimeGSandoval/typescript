@@ -114,6 +114,7 @@ interface TodoListView {
 // Implementing the TodoListView interface
 
 //********** VIEW **********
+// This gets sent to the controller as an argument
 class HTMLTodoListView implements TodoListView {
     private readonly todoInput: HTMLInputElement;
     private readonly todoListDiv: HTMLDivElement;
@@ -153,6 +154,7 @@ class HTMLTodoListView implements TodoListView {
         return this.todoListFilter.value.toUpperCase();
     }
 
+    // gets text from input value and makes new TodoItem with it
     getInput(): TodoItem {
         const todoInputValue: string = this.todoInput.value.trim();
         const retVal: TodoItem = new TodoItem(todoInputValue);
@@ -218,11 +220,14 @@ interface TodoListController {
 
 // As you can see earlier, our controller implementation requires TodoListView to be provided, but it does not care about which specific implementation. This is how you usually want to work with interfaces: by programming against them rather than against implementations. This decouples your code.
 
+// view gets input from the dom, passes it to the controller, controller makes a record in the model
+
+
 // ************ CONTROLLER **************
 class TodoIt implements TodoListController {
-    private readonly _todoList: TodoList = new TodoList();
+    private readonly _todoList: TodoList = new TodoList(); // Model
 
-    constructor(private _todoListView: TodoListView) {
+    constructor(private _todoListView: TodoListView) { // View get passed as argument
         console.log("TodoIt");
 
         // Again, we have added a defensive check in the constructor.
@@ -234,21 +239,21 @@ class TodoIt implements TodoListController {
     // This is where the code begins to get interesting. As you can see, our controller retrieves information from the view and does not care about its exact subtype; all it cares about is the interface.
     addTodo(): void {
         // get the value from the view
-        const newTodo = this._todoListView.getInput();
+        const newTodo = this._todoListView.getInput(); // get value from view obj argument
 
         // verify that there is something to add
         if ('' !== newTodo.description) {
             console.log("Adding todo: ", newTodo);
 
             // add the new item to the list (i.e., update the model)
-            this._todoList.addTodo(newTodo);
+            this._todoList.addTodo(newTodo); // add todo to Model
             console.log("New todo list: ", this._todoList.todoList);
 
             // clear the input
             this._todoListView.clearInput();
 
             // update the rendered todo list
-            this._todoListView.render(this._todoList.todoList);
+            this._todoListView.render(this._todoList.todoList); // call method to reset the View w/ new todo added
 
             // filter the list if needed
             this.filterTodoList();
@@ -266,7 +271,7 @@ class TodoIt implements TodoListController {
        if(identifier) {
         console.log("item to remove: ", identifier);
         this._todoList.removeTodo(identifier);
-        this._todoListView.render(this._todoList.todoList);
+        this._todoListView.render(this._todoList.todoList); // reset view with todos
         this.filterTodoList();
         }
     }
