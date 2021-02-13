@@ -1,0 +1,19 @@
+---  Using the Model View Controller (MVC) design pattern
+
+This time around, we have applied the Model View Controller (MVC) design pattern. MVC is a very popular way of isolating responsibilities:
+
+The Model contains the data.
+The View is responsible for the user interface.
+The Controller contains the logic to handle user actions and to update the system.
+
+With the MVC pattern applied, our application will have a better structure:
+
+  - TodoList will be the model of the application and will take care of maintaining the list of todo items.
+
+  - TodoListView will be responsible for the view of the application.
+
+  - TodoIt will be the controller of the application and will implement the TodoListController interface. It     will thus expose the methods to add, filter, and remove items. When those methods get called, TodoIt will update the model with the new information and will request an update of the view
+
+With this new design, we keep the main advantages of the first proposal, but some interesting improvements can be observed. For example, TodoIt will use composition to handle the view; it will know and use the TodoListView interface, but will not need to know about the HTML implementation that will be used (HTMLTodoListView). This means that it will be easy to plug other types of views into the application.
+
+Another interesting point is the fact that TodoList and TodoItem use encapsulation, so they can take care of the integrity of the data. Also if you were to implement a persistence mechanism, it would be easy to make that change transparent.

@@ -1,0 +1,40 @@
+-- First proposal
+
+The first obvious benefit of this first approach is that we would have a clear model for items in our todo list. With that in place, it would become easy to come back and modify the data model in order to add new elements to it (for example, due date, assignee, and many others). This means that we would increase the clarity, readability, and maintainability of our code.
+
+Also, since TodoItem objects would have a unique identifier, then it would be easy to manipulate them properly. In the first version of TodoIt, when we wanted to remove an item, we did so using only name, which simply removed any matching entry in the array. In our case, it wasn't a big issue, but for other use cases, you can imagine that it would not be ideal.
+
+The TodoIt class would be the owner of the todo list and would expose methods to manipulate it: addItem and removeItem. In addition, it would also allow its clients to retrieve the full list of todo items through the getTodoList method, and to get a filtered version using an example object with the getFilteredTodoList method. With this defined, the application would expose a clear API to manipulate the todo list.
+
+Moreover, thanks to the TodoIt class, we would be able to encapsulate all the logic related to the manipulation of the todo list.
+
+Finally, the TodoListView would be the one responsible for handling all the DOM-related operations, such as retrieving the field values, and for updating the DOM to reflect the new content of the todo list.
+
+Unfortunately, this first proposal has some major flaws. For instance, what is the entry point of the application? Is it TodoIt or TodoListView? Actually, with this first design, the view would be in charge of everything, which is far from ideal because it would have more responsibilities than it needs. The view should only ever be responsible for the user interface; it shouldn't control the flow of the application or its data model.
+
+
+--  Single responsibility principle (SRP)
+
+To improve our design, we actually need to apply the SRP.
+
+The SRP is a very important and useful design principle for ensuring code quality, maintainability, and separation of concerns. It is actually the first of the SOLID design principles.
+
+SRP states that a class should have one, and only one, responsibility.
+
+The main benefit of applying the SRP is that when changes need to be applied, they should have a limited impact on the code base.
+
+As we all know, requirements evolve and change over time. Each of those changes also impacts the responsibilities of some parts of the system. If specific parts of your code have many responsibilities, then it increases the chance of those being impacted when something changes. Moreover, having a component with many responsibilities also implies that there is a stronger coupling with other parts of the system, meaning a larger potential impact down the line for your overall code base.
+
+Separation of concerns is important for maintainability, and our goal throughout this book is not only to show you the TypeScript syntax, but also to guide you toward creating better applications with the language, and others for that matter.
+
+-- Law of Demeter (LoD)
+Another interesting object-oriented design guideline is called the LoD, or the principle of least knowledge.
+
+It states that the less different parts of your system know about each other, the better. By limiting the amount of required knowledge, you make sure that different parts can evolve without incurring large adaptations to other parts.
+
+The LoD can be summarized as follows:
+
+Each subsystem should only have limited knowledge of other subsystems that are closely related.
+Each subsystem should only talk to friends, usually not to strangers.
+Each subsystem should only talk to its close friends.
+These rules are, of course, all in favor of a good functional decomposition and loose coupling, limiting the impact and cost of changes. The LoD is closely related and complementary to the SRP and OO principles, such as encapsulation
