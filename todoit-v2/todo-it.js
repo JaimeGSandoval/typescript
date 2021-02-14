@@ -39,17 +39,19 @@ var TodoItem = /** @class */ (function () {
     return TodoItem;
 }());
 // If you implement the TodoItem class as we propose, instances of the class will be immutable: Once an instance has been created, you cannot modify it, whether from the inside or from the outside. This is guaranteed because the fields are private and only expose a getter that protects the field from external modifications. In addition, the fields are also read-only, which prevents internal modifications as well. This is a practice that we heavily recommend.
-// Creating the TodoList class
+// Creating the TodoList class.
 // Now, you can also implement the TodoList class:
+// *********** MODEL *************
+// The model is an array of TodoItems
 var TodoList = /** @class */ (function () {
     function TodoList(todoList) {
-        this._todoList = [];
+        this._todoList = []; // Model
         // first we make sure that we have received a valid array
         // reference: https://developer.mozilla.org/en-
         // US/docs/Web/JavaScript/Reference/Global_Objects
         // /Array/isArray
         if (Array.isArray(todoList) && todoList.length) {
-            this._todoList = this._todoList.concat(todoList);
+            this._todoList = this._todoList.concat(todoList); // concat creates a new array
         }
     }
     Object.defineProperty(TodoList.prototype, "todoList", {
@@ -64,7 +66,8 @@ var TodoList = /** @class */ (function () {
             // the value is "truthy":
             // not null, not undefined, not NaN, not an empty string,
             // not 0, not false
-            this._todoList = this._todoList.concat(todoItem);
+            // add todoItem to array model
+            this._todoList = this._todoList.concat(todoItem); // concat creates a new array
         }
     };
     TodoList.prototype.removeTodo = function (itemId) {
@@ -82,6 +85,8 @@ var TodoList = /** @class */ (function () {
     return TodoList;
 }());
 // Implementing the TodoListView interface
+//********** VIEW **********
+// This gets sent to the controller as an argument
 var HTMLTodoListView = /** @class */ (function () {
     function HTMLTodoListView() {
         this.todoInput = document.getElementById('todoInput');
@@ -107,6 +112,7 @@ var HTMLTodoListView = /** @class */ (function () {
     HTMLTodoListView.prototype.getFilter = function () {
         return this.todoListFilter.value.toUpperCase();
     };
+    // gets text from input value and makes new TodoItem with it
     HTMLTodoListView.prototype.getInput = function () {
         var todoInputValue = this.todoInput.value.trim();
         var retVal = new TodoItem(todoInputValue);
@@ -150,14 +156,16 @@ var HTMLTodoListView = /** @class */ (function () {
     return HTMLTodoListView;
 }());
 // This interface might surprise you because, apart from the removeTodo method, the methods don't accept parameters. The reason for this is that our view will interact with the controller layer by passing signals to it.
-// To give you an example, when you click on the Add button or press Enter to add an item to the list, then it will simply invoke the addTodo method on the controller. Then, the controller's implementation will ask its view (more precisely, its view model) to get the input value from the DOM. Once it has the value, the controller will update the model and then it will ask the view to update itself. As you can see, the controller is the orchestrator of the whole process.
+// To give you an example, when you click on the Add button or press Enter to add an item to the list, then it will simply invoke the addTodo method on the controller. Then, the controller's implementation will ask its view to get the input value from the DOM. Once it has the value, the controller will update the model and then it will ask the view to update itself. As you can see, the controller is the orchestrator of the whole process.
 // Implementing the TodoIt controller class
 // Now, start with the base skeleton of the controller implementation:
 // As you can see earlier, our controller implementation requires TodoListView to be provided, but it does not care about which specific implementation. This is how you usually want to work with interfaces: by programming against them rather than against implementations. This decouples your code.
+// view gets input from the dom, passes it to the controller, controller makes a record in the model
+// ************ CONTROLLER **************
 var TodoIt = /** @class */ (function () {
     function TodoIt(_todoListView) {
         this._todoListView = _todoListView;
-        this._todoList = new TodoList();
+        this._todoList = new TodoList(); // Model
         console.log("TodoIt");
         // Again, we have added a defensive check in the constructor.
         if (!_todoListView) {
@@ -167,17 +175,18 @@ var TodoIt = /** @class */ (function () {
     // This is where the code begins to get interesting. As you can see, our controller retrieves information from the view and does not care about its exact subtype; all it cares about is the interface.
     TodoIt.prototype.addTodo = function () {
         // get the value from the view
-        var newTodo = this._todoListView.getInput();
+        // this._todoListView is the VIEW obj passed as an argument
+        var newTodo = this._todoListView.getInput(); // get value from VIEW obj argument
         // verify that there is something to add
         if ('' !== newTodo.description) {
             console.log("Adding todo: ", newTodo);
             // add the new item to the list (i.e., update the model)
-            this._todoList.addTodo(newTodo);
+            this._todoList.addTodo(newTodo); // add todo to Model
             console.log("New todo list: ", this._todoList.todoList);
             // clear the input
             this._todoListView.clearInput();
             // update the rendered todo list
-            this._todoListView.render(this._todoList.todoList);
+            this._todoListView.render(this._todoList.todoList); // call method to reset the View w/ new todo added
             // filter the list if needed
             this.filterTodoList();
         }
@@ -192,7 +201,7 @@ var TodoIt = /** @class */ (function () {
         if (identifier) {
             console.log("item to remove: ", identifier);
             this._todoList.removeTodo(identifier);
-            this._todoListView.render(this._todoList.todoList);
+            this._todoListView.render(this._todoList.todoList); // reset view with todos
             this.filterTodoList();
         }
     };
@@ -205,10 +214,10 @@ var TodoIt = /** @class */ (function () {
 // Asking the view to render the updated todo list
 // Now that we have created our implementations, we need to leverage those.
 // We first need to instantiate the view:
-var view = new HTMLTodoListView();
+// const view = new HTMLTodoListView();
 // Then, we also need to create an instance of our controller, TodoIt:
 // Here, we pass a concrete implementation of the view interface, but our controller doesn't know and doesn't care. All it cares about is that it gets something that is compatible with the interface.
-var todoIt = new TodoIt(view);
+// const todoIt = new TodoIt(view);
 // We can invoke it as easily as before, using EventUtils.isEnter(...​). This doesn't change much, but is cleaner and conveys more meaning. One important rule, whenever you develop software, is to keep in mind that your code will be read many more times than it is written or changed.
 var EventUtils = /** @class */ (function () {
     function EventUtils() {

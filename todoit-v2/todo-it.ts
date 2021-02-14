@@ -42,7 +42,7 @@ class TodoItem {
 // *********** MODEL *************
 // The model is an array of TodoItems
 class TodoList {
-    private _todoList: ReadonlyArray<TodoItem> = [];
+    private _todoList: ReadonlyArray<TodoItem> = []; // Model
 
     constructor(todoList?: TodoItem[]) {
         // first we make sure that we have received a valid array
@@ -63,6 +63,7 @@ class TodoList {
             // the value is "truthy":
             // not null, not undefined, not NaN, not an empty string,
             // not 0, not false
+            // add todoItem to array model
             this._todoList = this._todoList.concat(todoItem); // concat creates a new array
         }
     }
@@ -213,7 +214,7 @@ interface TodoListController {
 
 // This interface might surprise you because, apart from the removeTodo method, the methods don't accept parameters. The reason for this is that our view will interact with the controller layer by passing signals to it.
 
-// To give you an example, when you click on the Add button or press Enter to add an item to the list, then it will simply invoke the addTodo method on the controller. Then, the controller's implementation will ask its view (more precisely, its view model) to get the input value from the DOM. Once it has the value, the controller will update the model and then it will ask the view to update itself. As you can see, the controller is the orchestrator of the whole process.
+// To give you an example, when you click on the Add button or press Enter to add an item to the list, then it will simply invoke the addTodo method on the controller. Then, the controller's implementation will ask its view to get the input value from the DOM. Once it has the value, the controller will update the model and then it will ask the view to update itself. As you can see, the controller is the orchestrator of the whole process.
 
 // Implementing the TodoIt controller class
 // Now, start with the base skeleton of the controller implementation:
@@ -227,7 +228,7 @@ interface TodoListController {
 class TodoIt implements TodoListController {
     private readonly _todoList: TodoList = new TodoList(); // Model
 
-    constructor(private _todoListView: TodoListView) { // View get passed as argument
+    constructor(private _todoListView: TodoListView) { // VIEW gets passed as argument
         console.log("TodoIt");
 
         // Again, we have added a defensive check in the constructor.
@@ -239,13 +240,15 @@ class TodoIt implements TodoListController {
     // This is where the code begins to get interesting. As you can see, our controller retrieves information from the view and does not care about its exact subtype; all it cares about is the interface.
     addTodo(): void {
         // get the value from the view
-        const newTodo = this._todoListView.getInput(); // get value from view obj argument
+        // this._todoListView is the VIEW obj passed as an argument
+        const newTodo = this._todoListView.getInput(); // get value from VIEW obj argument
 
         // verify that there is something to add
         if ('' !== newTodo.description) {
             console.log("Adding todo: ", newTodo);
 
             // add the new item to the list (i.e., update the model)
+            // this._todoList is the TodoList Model array
             this._todoList.addTodo(newTodo); // add todo to Model
             console.log("New todo list: ", this._todoList.todoList);
 
