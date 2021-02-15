@@ -17,5 +17,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "class-transformer": "^0.4.0",
+    "localforage": "^1.9.0",
+    "reflect-metadata": "^0.1.13"
+  }
 }
