@@ -748,7 +748,7 @@ console.log("Book service initialized: ", bookService);
 const movieService = new MediaServiceImpl<Movie>(Movie);
 console.log("Movie service initialized: ", movieService);
 
-const mediaManController = new MediaManControllerImpl(view, bookService, movieService);
+const mediaManController = new MediaManControllerImpl(view, bookService, movieService); // Starts App
 
 interface CustomWindow extends Window {
     mediaManController?: MediaManController
