@@ -154,6 +154,8 @@ class Movie extends Media {
     }
 }
 
+
+// ***************  MODEL  ************************
 class MediaCollection<T extends Media> {
     private _identifier: string;
     private _name: string = "";
@@ -161,11 +163,7 @@ class MediaCollection<T extends Media> {
 
     private readonly _type: Function;
 
-    constructor(
-        type: Function,
-        name?: string,
-        identifier?: string
-    ) {
+    constructor(type: Function, name?: string, identifier?: string) {
         this._type = type;
 
         if (name) {
@@ -243,6 +241,7 @@ interface MediaService<T extends Media> {
 class MediaServiceImpl<T extends Media> implements MediaService<T> {
     private readonly _store: LocalForage;
 
+    // _type is the constructor of either class Book or Movie
     constructor(private _type: Function) {
         console.log(`Initializing media service for ${_type.name}`);
 
@@ -256,13 +255,13 @@ class MediaServiceImpl<T extends Media> implements MediaService<T> {
         });
     }
 
-    loadMediaCollection(identifier: string): Promise<MediaCollection<T>> {
+    loadMediaCollection(identifier: string): Promise<MediaCollection<T>> { // identifier is a key to get collection from database
         console.log(`Trying to load media collection with the following identifier: ${identifier}`);
         return new Promise<MediaCollection<T>>((resolve, reject) => {
             this._store.getItem(identifier)
-                .then(value => {
+                .then(value => { // value is the collection found by using key/identifier
                     console.log("Found the collection: ", value);
-
+                                                                                                 // _type is either class Book or Movie
                     const retrievedCollection = plainToClassFromExist<MediaCollection<T>, any>(new MediaCollection<T>(this._type), value);
 
                     console.log("Retrieved collection: ", retrievedCollection);
@@ -300,14 +299,15 @@ class MediaServiceImpl<T extends Media> implements MediaService<T> {
     getMediaCollectionIdentifiersList(): Promise<string[]> {
         return new Promise<string[]>((resolve, reject) => {
             console.log("Retrieving the list of media collection identifiers");
-            this._store.keys().then(keys => {
+            this._store.keys()
+            .then(keys => {
                 console.log("Retrieved the of media collection identifiers: ", keys);
                 resolve(keys);
             })
-                .catch(err => {
-                    console.error("Failed to retrieve the list of media collection identifiers. Error: ", err);
-                    reject(err);
-                })
+            .catch(err => {
+                console.error("Failed to retrieve the list of media collection identifiers. Error: ", err);
+                reject(err);
+            })
         });
     }
 
@@ -332,6 +332,8 @@ class MediaServiceImpl<T extends Media> implements MediaService<T> {
     }
 }
 
+
+// *****************  VIEW  ***********************
 interface MediaManView {
     getNewBookCollectionName(): string;
     renderBookCollection(bookCollection: Readonly<MediaCollection<Book>>): void;
@@ -592,6 +594,8 @@ class HTMLMediaManView implements MediaManView {
     }
 }
 
+
+// *****************  CONTROLLER  ***********************
 interface MediaManController {
     createBookCollection(): void;
     reloadBookCollections(): void;
@@ -601,16 +605,19 @@ interface MediaManController {
 }
 
 class MediaManControllerImpl implements MediaManController {
-    private readonly _view: MediaManView;
-    private readonly _bookService: MediaService<Book>;
-    private readonly _movieService: MediaService<Movie>;
+    private readonly _view: MediaManView; // VIEW
+    private readonly _bookService: MediaService<Book>; // API
+    private readonly _movieService: MediaService<Movie>;// API
 
+     // MODEL DATABASE AS A MAP
     private _bookCollections: Map<string, MediaCollection<Book>> = new Map<string, MediaCollection<Book>>();
+    // MODEL DATABASE AS A MAP
     private _movieCollections: Map<string, MediaCollection<Movie>> = new Map<string, MediaCollection<Movie>>();
 
     constructor(view: MediaManView, bookService: MediaService<Book>, movieService: MediaService<Movie>) {
+
         if (!view) {
-            throw new Error("The view is mandatory!");
+        throw new Error("The view is mandatory!");
         }
         if (!bookService) {
             throw new Error("The book service is mandatory!");
@@ -619,23 +626,39 @@ class MediaManControllerImpl implements MediaManController {
             throw new Error("The movie service is mandatory!");
         }
 
+        // MEDIA MAN VIEW
         this._view = view;
+        // MEDIA SERVICE API FOR BOOKS COLLECTION
         this._bookService = bookService;
+        // MEDIA SERVICE API FOR MOVIE COLLECTION
         this._movieService = movieService;
+        // reload saved data when the application starts // CONTROLLER
 
-        this.reloadBookCollections(); // reload saved data when the application starts
+        this.reloadBookCollections();
+
     }
 
-    reloadBookCollections(): void {
-        this._bookService.getMediaCollectionIdentifiersList().then(keys => {
-            this._bookCollections.clear(); // clear the current state
-            this._view.clearBookCollections(); // remove the DOM nodes
+    reloadBookCollections(): void { // CONTROLLER
+            // API KEYS ARRAY RETRIEVAL FROM _store.keys()- MEDIA SERVICE INTERFACE
+            this._bookService.getMediaCollectionIdentifiersList()
+            .then(keys => {
+            // clear the current state - CLEAR MODEL - MAP MEDIA COLLECTIONS<BOOK>
+            this._bookCollections.clear(); // Commented out for now because it doesn't seem to do anything
+
+            // remove the DOM nodes - CLEAR DOM VIEW - MEDIA MAN VIEW INTERFACE
+            this._view.clearBookCollections(); // Commented out for now because it doesn't seem to do anything
             keys.forEach(key => {
-                this._bookService.loadMediaCollection(key).then(collection => {
-                    this._bookCollections.set(key, collection);
-                    this._view.renderBookCollection(collection);
+                // _bookService = type MediaService<Book> API
+                // loadMediaCollection() goes into database to get collection using key
+                this._bookService.loadMediaCollection(key)
+                .then(collection => {
+                // SET MAP MODEL
+                this._bookCollections.set(key, collection);
+                // SET DOM VIEW
+                this._view.renderBookCollection(collection);
                 });
             });
+            console.log(keys);
         });
     }
 

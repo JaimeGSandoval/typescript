@@ -37,6 +37,7 @@ var Genre;
     Genre["ScienceFiction"] = "Science Fiction";
 })(Genre || (Genre = {}));
 // Next, we can implement the base Media class. Once again, we are using encapsulation. Additionally, we have marked this class as abstract since it doesn't make sense to be able to instantiate it. The _identifier member will be used to acquire a somewhat unique technical key for each media instance. Note that you should use Universally Unique Identifiers (UUIDs) for this purpose in real applications instead, as the preceding approach is unsafe.
+// Coming to MVC terminology this would be our  “Model” or “Domain Model”. Basically Domain Model consist of those attributes for an Entity which qualifies it in the real world in the context of a particular domain (example: Human Resources).
 var Media = /** @class */ (function () {
     function Media(_name, _description, _pictureLocation, _genre, identifier
     // Note that we optionally allow forcing an identifier. This will be useful when we retrieve persisted data, as we want those keys to remain stable (that is, they don't change).
@@ -798,9 +799,11 @@ var bookService = new MediaServiceImpl(Book);
 console.log('Book service initialized: ', bookService);
 var movieService = new MediaServiceImpl(Movie);
 console.log('Movie service initialized: ', movieService);
+// Now we can finally instantiate our controller and provided it with the view and service instances:
+var mediaManController = new MediaManControllerImpl(view, bookService, movieService);
 var customWindow = window;
-// customWindow.mediaManController = mediaManController; // assigns const mediaManController, which is a new MediaManControllerImpl that has a view, bookService, and movieService passed as arguments
-// console.log('MediaMan ready!', customWindow.mediaManController);
+customWindow.mediaManController = mediaManController; // assigns const mediaManController, which is a new MediaManControllerImpl that has a view, bookService, and movieService passed as arguments
+console.log('MediaMan ready!', customWindow.mediaManController);
 // Take note of how we have added the global variable. Since Window is a type included in the standard TypeScript library, you cannot change it easily. This is why we're creating a CustomWindow interface, extending from the one provided by TypeScript. In this way, we can properly declare our property. Once done, we assign the window object to a constant using our CustomWindow type, which allows us to bind the mediaManController property to it.
 // At this point, you should have a fully functional web application! Go ahead and create some collections/books, then hit the refresh button, and see that your data was not lost thanks to IndexedDB!
 // Finally, we presented the SERVICE LAYER DESIGN pattern and leveraged it to better separate concerns in our application.

@@ -190,6 +190,7 @@ var Movie = /** @class */ (function (_super) {
     ], Movie.prototype, "duration", null);
     return Movie;
 }(Media));
+// ***************  MODEL  ************************
 var MediaCollection = /** @class */ (function () {
     function MediaCollection(type, name, identifier) {
         this._name = "";
@@ -269,6 +270,7 @@ var MediaCollection = /** @class */ (function () {
     return MediaCollection;
 }());
 var MediaServiceImpl = /** @class */ (function () {
+    // _type is the constructor of either class Book or Movie
     function MediaServiceImpl(_type) {
         this._type = _type;
         console.log("Initializing media service for " + _type.name);
@@ -288,6 +290,7 @@ var MediaServiceImpl = /** @class */ (function () {
             _this._store.getItem(identifier)
                 .then(function (value) {
                 console.log("Found the collection: ", value);
+                // _type is either class Book or Movie
                 var retrievedCollection = class_transformer_1.plainToClassFromExist(new MediaCollection(_this._type), value);
                 console.log("Retrieved collection: ", retrievedCollection);
                 resolve(retrievedCollection);
@@ -321,7 +324,8 @@ var MediaServiceImpl = /** @class */ (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             console.log("Retrieving the list of media collection identifiers");
-            _this._store.keys().then(function (keys) {
+            _this._store.keys()
+                .then(function (keys) {
                 console.log("Retrieved the of media collection identifiers: ", keys);
                 resolve(keys);
             })
@@ -496,7 +500,9 @@ var HTMLMediaManView = /** @class */ (function () {
 }());
 var MediaManControllerImpl = /** @class */ (function () {
     function MediaManControllerImpl(view, bookService, movieService) {
+        // MODEL DATABASE AS A MAP
         this._bookCollections = new Map();
+        // MODEL DATABASE AS A MAP
         this._movieCollections = new Map();
         if (!view) {
             throw new Error("The view is mandatory!");
@@ -507,22 +513,36 @@ var MediaManControllerImpl = /** @class */ (function () {
         if (!movieService) {
             throw new Error("The movie service is mandatory!");
         }
+        // MEDIA MAN VIEW
         this._view = view;
+        // MEDIA SERVICE API FOR BOOKS COLLECTION
         this._bookService = bookService;
+        // MEDIA SERVICE API FOR MOVIE COLLECTION
         this._movieService = movieService;
-        this.reloadBookCollections(); // reload saved data when the application starts
+        // reload saved data when the application starts // CONTROLLER
+        this.reloadBookCollections();
     }
     MediaManControllerImpl.prototype.reloadBookCollections = function () {
         var _this = this;
-        this._bookService.getMediaCollectionIdentifiersList().then(function (keys) {
-            _this._bookCollections.clear(); // clear the current state
-            _this._view.clearBookCollections(); // remove the DOM nodes
+        // API KEYS ARRAY RETRIEVAL FROM _store.keys()- MEDIA SERVICE INTERFACE
+        this._bookService.getMediaCollectionIdentifiersList()
+            .then(function (keys) {
+            // clear the current state - CLEAR MODEL - MAP MEDIA COLLECTIONS<BOOK>
+            // this._bookCollections.clear(); // Commented out for now because it doesn't seem to do anything
+            // remove the DOM nodes - CLEAR DOM VIEW - MEDIA MAN VIEW INTERFACE
+            // this._view.clearBookCollections(); // Commented out for now because it doesn't seem to do anything
             keys.forEach(function (key) {
-                _this._bookService.loadMediaCollection(key).then(function (collection) {
+                // _bookService = type MediaService<Book> API
+                // loadMediaCollection() goes into database to get collection using key
+                _this._bookService.loadMediaCollection(key)
+                    .then(function (collection) {
+                    // SET MAP MODEL
                     _this._bookCollections.set(key, collection);
+                    // SET DOM VIEW
                     _this._view.renderBookCollection(collection);
                 });
             });
+            console.log(keys);
         });
     };
     MediaManControllerImpl.prototype.createBookCollection = function () {
@@ -616,7 +636,7 @@ var bookService = new MediaServiceImpl(Book);
 console.log("Book service initialized: ", bookService);
 var movieService = new MediaServiceImpl(Movie);
 console.log("Movie service initialized: ", movieService);
-var mediaManController = new MediaManControllerImpl(view, bookService, movieService);
+var mediaManController = new MediaManControllerImpl(view, bookService, movieService); // Starts App
 var customWindow = window;
 customWindow.mediaManController = mediaManController;
 console.log("MediaMan ready!", customWindow.mediaManController);
