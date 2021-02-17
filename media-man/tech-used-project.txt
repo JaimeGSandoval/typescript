@@ -1,7 +1,0 @@
-- TypeScript - dev-dependency
-- parcel-bundler - dev-dependency
-- cross-env - dev-dependency
-
-- localeforage - dependency
-- class-transformer - dependency
-- reflect-metadata - dependency
