@@ -54,20 +54,19 @@ export class MediaServiceImpl<T extends Media> implements MediaService<T> {
                 reject(new Error("The list cannot be null or undefined!"));
             }
 
-            console.log(`Saving media collection with the following name ${collection.name}`);
+            // console.log(`Saving media collection with the following name ${collection.name}`);
 
             const serializedVersion = classToPlain(collection, {excludePrefixes: ["_"]});
             console.log("Serialized version: ", serializedVersion);
-
             this._store.setItem(collection.identifier, serializedVersion)
-                .then(value => {
-                    console.log(`Saved the ${collection.name} collection successfully! Saved value: `, value);
-                    resolve();
-                })
-                .catch(err => {
-                    console.error(`Failed to save the ${collection.name} collection with identifier ${collection.identifier}. Error: ${err}`);
-                    reject(err);
-                });
+            .then(value => {
+                console.log(`Saved the ${collection.name} collection successfully! Saved value: 2 TEST`, value);
+                resolve();
+            })
+            .catch(err => {
+                console.error(`Failed to save the ${collection.name} collection with identifier ${collection.identifier}. Error: ${err}`);
+                reject(err);
+            });
         });
     }
 
@@ -95,14 +94,14 @@ export class MediaServiceImpl<T extends Media> implements MediaService<T> {
             console.log(`Removing media collection with the following identifier ${identifier}`);
 
             this._store.removeItem(identifier)
-                .then(() => {
-                    console.log(`Removed the ${identifier} collection successfully!`);
-                    resolve();
-                })
-                .catch(err => {
-                    console.error(`Failed to removed the ${identifier} collection`);
-                    reject(err);
-                });
+            .then(() => {
+                console.log(`Removed the ${identifier} collection successfully!`);
+                resolve();
+            })
+            .catch(err => {
+                console.error(`Failed to removed the ${identifier} collection`);
+                reject(err);
+            });
         });
     }
 }

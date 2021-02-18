@@ -38,12 +38,13 @@ var MediaServiceImpl = /** @class */ (function () {
             if (!collection) {
                 reject(new Error("The list cannot be null or undefined!"));
             }
-            console.log("Saving media collection with the following name " + collection.name);
+            // console.log(`Saving media collection with the following name ${collection.name}`);
             var serializedVersion = classToPlain(collection, { excludePrefixes: ["_"] });
-            console.log("Serialized version: ", serializedVersion);
+            // console.log("Serialized version: ", serializedVersion);
+            console.log('1 TEST', serializedVersion);
             _this._store.setItem(collection.identifier, serializedVersion)
                 .then(function (value) {
-                console.log("Saved the " + collection.name + " collection successfully! Saved value: ", value);
+                console.log("Saved the " + collection.name + " collection successfully! Saved value: 2 TEST", value);
                 resolve();
             })
                 .catch(function (err) {
