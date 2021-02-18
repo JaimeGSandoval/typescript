@@ -36,7 +36,7 @@ export class MediaServiceImpl<T extends Media> implements MediaService<T> {
             this._store.getItem(identifier)
                 .then(value => { // value is the collection found by using key/identifier
                     console.log("Found the collection: ", value);
-                                                                                                 // _type is either class Book or Movie
+                    // _type is either class Book or Movie
                     const retrievedCollection = plainToClassFromExist<MediaCollection<T>, any>(new MediaCollection<T>(this._type), value);
 
                     console.log("Retrieved collection: ", retrievedCollection);

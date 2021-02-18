@@ -51,10 +51,10 @@ export class MediaManControllerImpl implements MediaManController {
             this._bookService.getMediaCollectionIdentifiersList()
             .then(keys => {
             // clear the current state - CLEAR MODEL - MAP MEDIA COLLECTIONS<BOOK>
-            this._bookCollections.clear(); // Commented out for now because it doesn't seem to do anything
+            this._bookCollections.clear();
 
             // remove the DOM nodes - CLEAR DOM VIEW - MEDIA MAN VIEW INTERFACE
-            this._view.clearBookCollections(); // Commented out for now because it doesn't seem to do anything
+            this._view.clearBookCollections();
             keys.forEach(key => {
                 // _bookService = type MediaService<Book> API
                 // loadMediaCollection() goes into database to get collection using key
