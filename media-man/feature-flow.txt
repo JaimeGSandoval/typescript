@@ -1,0 +1,59 @@
+ // INITIALIZE THE APP
+
+1. Create a new view
+2. Create new API functionality for media type by creating indexedDB instance w/ local forage.
+3. Create a new controller and pass in media API vars and view var as arguments and call controller to start app
+
+4. Create Maps to hold media type collections in indexedDB
+5. Go into indexedDB and get any collections that've been saved previously
+6. Render the collections to the DOM
+
+7. Wait for user to add new collection
+
+
+// CREATE NEW MEDIA COLLECTION AND ADD TO INDEXED DB
+
+1. User fills out name of new collection. Clicks 'create collection'
+2. Retrieve New collection name from input in DOM
+3. Create new Collection
+4. Save new collection with Promise to indexDB
+5. Render new collection html form to the DOM so user can add new items to collection
+
+
+// CREATE NEW MEDIA TYPE/ITEM (BOOK OR MOVIE)
+
+1. User fills out form inputs to add new item. Clicks create item button
+2. Retrieve form data for new item from DOM
+3. Use key as identifier for new item and instansiate new item from media type class
+4. Add new item to existing media type collection in indexDB
+5. Save the existing collection with new item added to it to the indexedDB with a promise
+6. Upon return of promise, render the HTML for the media type collection to the DOM
+
+
+// REMOVE MEDIA TYPE/ITEM FROM COLLECTION
+
+1. User clicks on remove item button
+2. Have collection identifier and item identifier passed as arguments to remove method
+3. Retrieve item to be deleted from the DOM by using the collection identifier and book identifier along with templae literals
+   Ex: const bookElement = document.getElementById('book-${collectionIdentifier}-${bookIdentifier}') as HTMLInputElement
+4. Use .remove() on the item that is a child node
+
+
+// REMOVE MEDIA COLLECTION FROM INDEXED DB
+
+1. User clicks on remove collection button
+2. Use the identifier that was passed as an argument when the book collection was rendered with the renderCollection method and    place it in a var
+3. Use identifier var and delete collection from Map
+4. Use identifier to remove collection from the DOM
+5. Use identifier to remove the collection from the indexed DB with a promise that returns void
+
+
+// RELOAD MEDIA COLLECTIONS TO THE DOM
+
+1. User clicks on reload collections button
+2. Get all the keys in the indexed DB with a promise
+3. Clear the Map holding the collection with Map.clear()
+4. Remove the collection from the DOM
+5. Use for each on keys and call loadMediaCollections on each key. Each key represents a media collection. loadMediaCollections is    goes into the data base and gets the collection using the key with a    promise
+6. Set the Map that holds the collection with the key as the key and collection as the value
+7. Render the colections
