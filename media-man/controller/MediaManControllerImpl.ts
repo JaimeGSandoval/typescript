@@ -17,12 +17,13 @@ export class MediaManControllerImpl implements MediaManController {
     private readonly _bookService: MediaService<Book>; // API
     private readonly _movieService: MediaService<Movie>;// API
 
-     // MODEL DATABASE AS A MAP
+    // MODEL DATABASE AS A MAP
     private _bookCollections: Map<string, MediaCollection<Book>> = new Map<string, MediaCollection<Book>>();
     // MODEL DATABASE AS A MAP
     private _movieCollections: Map<string, MediaCollection<Movie>> = new Map<string, MediaCollection<Movie>>();
 
     constructor(view: MediaManView, bookService: MediaService<Book>, movieService: MediaService<Movie>) {
+        console.log('github test');
 
         if (!view) {
         throw new Error("The view is mandatory!");

@@ -40,8 +40,7 @@ var MediaServiceImpl = /** @class */ (function () {
             }
             // console.log(`Saving media collection with the following name ${collection.name}`);
             var serializedVersion = classToPlain(collection, { excludePrefixes: ["_"] });
-            // console.log("Serialized version: ", serializedVersion);
-            console.log('1 TEST', serializedVersion);
+            console.log("Serialized version: ", serializedVersion);
             _this._store.setItem(collection.identifier, serializedVersion)
                 .then(function (value) {
                 console.log("Saved the " + collection.name + " collection successfully! Saved value: 2 TEST", value);

@@ -6,6 +6,7 @@ var MediaManControllerImpl = /** @class */ (function () {
         this._bookCollections = new Map();
         // MODEL DATABASE AS A MAP
         this._movieCollections = new Map();
+        console.log('github test');
         if (!view) {
             throw new Error("The view is mandatory!");
         }
