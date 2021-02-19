@@ -3,7 +3,7 @@ import { Media , Genre } from '../abstract-media/Media';
 
 
 export class Movie extends Media {
-    private _duration: string;
+    private _duration: number;
     private _director: string;
 
     constructor(
@@ -11,8 +11,8 @@ export class Movie extends Media {
         description: string,
         pictureLocation: string,
         genre: Genre,
-        duration: string,
         director: string,
+        duration: number,
         identifier?: string
     ) {
         super(name, description, pictureLocation, genre, identifier);
@@ -30,11 +30,11 @@ export class Movie extends Media {
     }
 
     @Expose()
-    get duration(): string {
+    get duration(): number {
         return this._duration;
     }
 
-    set duration(duration: string) {
+    set duration(duration: number) {
         this._duration = duration;
     }
 }

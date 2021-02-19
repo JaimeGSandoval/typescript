@@ -8,6 +8,11 @@ export interface MediaManController {
     removeBookCollection(identifier: string): void;
     createBook(collectionIdentifier: string): void;
     removeBook(collectionIdentifier: string, bookIdentifier: string): void;
+    createMovieCollection(): void;
+    reloadMovieCollections(): void;
+    removeMovieCollection(identifier: string): void;
+    createMovie(collectionIdentifier: string): void;
+    removeMovie(collectionIdentifier: string, movieIdentifier: string): void;
 }
 export declare class MediaManControllerImpl implements MediaManController {
     private readonly _view;
@@ -21,4 +26,9 @@ export declare class MediaManControllerImpl implements MediaManController {
     removeBookCollection(identifier: string): void;
     createBook(collectionIdentifier: string): void;
     removeBook(collectionIdentifier: string, bookIdentifier: string): void;
+    reloadMovieCollections(): void;
+    createMovieCollection(): void;
+    removeMovieCollection(identifier: string): void;
+    createMovie(collectionIdentifier: string): void;
+    removeMovie(collectionIdentifier: string, movieIdentifier: string): void;
 }
