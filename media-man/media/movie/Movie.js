@@ -21,7 +21,7 @@ import { Expose } from 'class-transformer';
 import { Media } from '../abstract-media/Media';
 var Movie = /** @class */ (function (_super) {
     __extends(Movie, _super);
-    function Movie(name, description, pictureLocation, genre, duration, director, identifier) {
+    function Movie(name, description, pictureLocation, genre, director, duration, identifier) {
         var _this = _super.call(this, name, description, pictureLocation, genre, identifier) || this;
         _this._duration = duration;
         _this._director = director;

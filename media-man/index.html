@@ -42,17 +42,20 @@
       <div class="containerGroup">
         <div class="container">
           <h3>New collection</h3>
-          <form id="newBookCollection" action="#">
-            <input id="newBookCollectionName" type="text" title="Name" placeholder="Name" required>
-            <input type="button" value="Create" onclick="mediaManController.createBookCollection();" />
+          <form id="newMovieCollection" action="#">
+            <input id="newMovieCollectionName" type="text" title="Name" placeholder="Name" required>
+            <input type="button" value="Create" onclick="mediaManController.createMovieCollection();" />
           </form>
         </div>
         <div class="container">
           <h3>Tools</h3>
           <form action="#">
-            <input type="button" value="Reload collections" onclick="mediaManController.reloadBookCollections();" />
+            <input type="button" value="Reload collections" onclick="mediaManController.reloadMovieCollections();" />
           </form>
         </div>
+      </div>
+      <div id="movieCollections" class="containerGroup">
+      </div>
       </div>
 
   <script src="./app/app.ts"></script>
