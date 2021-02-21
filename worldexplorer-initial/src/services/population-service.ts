@@ -165,42 +165,98 @@ async getCountry(countryCode: string): Promise<Country> {
 // Finally, we return a new Country object created using the different properties of the object that we've extracted from the response.
 }
 
-    async getTotalPopulation(country: Country, dateRange: string): Promise<DataPoint[]> {
-        // TODO implement
-        throw new Error("Not implemented yet");
-    }
+// Implementing the getTotalPopulation method
+// For this next method, we'll start using the Indicators API. Our function accepts two input parameters: a Country object and a date range string
 
-    async getFemalePopulation(country: Country, dateRange: string): Promise<DataPoint[]> {
-        // TODO implement
-        throw new Error("Not implemented yet");
+getBaseIndicatorApiUrlFor(indicator: WorldBankApiV2Indicators, country?: Country) {
+    let countryCode = "all";
+    if(country) {
+        countryCode = country.id;
     }
+    return `${this.countriesApiBaseUrl}/${countryCode}
+     ${WorldBankApiV2.INDICATORS_API_PREFIX}/${indicator}`;
+// This function constructs the base URL for the requested indicator (for example, total population) and the given country. If no country is provided, then all is used by default.
+}
 
-    async getMalePopulation(country: Country, dateRange: string): Promise<DataPoint[]> {
-        // TODO implement
-        throw new Error("Not implemented yet");
-    }
+// The implementation of getTotalPopulation follows the same idea as the previous methods:
+async getTotalPopulation(country: Country, dateRange: string): Promise<DataPoint[]> {
+    const response: Response = await fetch(`${this.getBaseIndicatorApiUrlFor(WorldBankApiV2Indicators.TOTAL_POPULATION, country)}?${WorldBankApiV2Params.FORMAT}=${WorldBankApiV2Formats.JSON}&${WorldBankApiV2Params.PER_PAGE}=1000&${WorldBankApiV2Params.DATE}=
+    ${dateRange}`);
+    const checkedResponse: Response = await this.checkResponseStatus(response);
+    let jsonContent: unknown = await this.getJsonContent(checkedResponse);
+    const validationResult = worldBankApiV2IndicatorResponseValidator.decode(jsonContent);
+    ThrowReporter.report(validationResult);
+    // from here on, we know that the validation has passed
+    const dataPoints = (validationResult.value as WorldBankApiV2IndicatorResponse)[1];
 
-    async getAdultFemaleLiteracy(country: Country, dateRange: string): Promise<DataPoint[]> {
-        // TODO implement
-        throw new Error("Not implemented yet");
-    }
+    let retVal: DataPoint[] = [];
+    // we only include data points for which we have
+   // a value
+    if (dataPoints) { // we might not get anything back
+        retVal = dataPoints
+        .filter(dataPoint => dataPoint.value !== null)
+        .map(dataPoint => new DataPoint(
+                dataPoint.date,
+                dataPoint.value as number
+        ));
+    // This time around, we check whether the data points could be retrieved or not. This is necessary because sometimes there might be no data available for the given search criteria. If there are data points, then we convert those to our own data model.
 
-    async getAdultMaleLiteracy(country: Country, dateRange: string): Promise<DataPoint[]> {
-        // TODO implement
-        throw new Error("Not implemented yet");
     }
+    return retVal;
+}
 
-    async getFemaleSurvivalToAge65(country: Country, dateRange: string): Promise<DataPoint[]> {
-        // TODO implement
-        throw new Error("Not implemented yet");
-    }
 
-    async getLifeExpectancy(country: Country, dateRange: string): Promise<DataPoint[]> {
-        // TODO implement
-        throw new Error("Not implemented yet");
+// Here's a utility function that will heavily simplify the implementation of our contract:
+async getIndicatorData(indicator: WorldBankApiV2Indicators, country: Country, dateRange: string, perPage: number): Promise<DataPoint[]> {
+    const response: Response = await fetch(`${this.getBaseIndicatorApiUrlFor(indicator, country)}?${WorldBankApiV2Params.FORMAT}=${WorldBankApiV2Formats.JSON}&${WorldBankApiV2Params.PER_PAGE}=${perPage}&${WorldBankApiV2Params.DATE}=${dateRange}`);
+    const checkedResponse: Response = await this.checkResponseStatus(response);
+    let jsonContent: unknown = await this.getJsonContent(checkedResponse);
+    const validationResult = worldBankApiV2IndicatorResponseValidator.decode(jsonContent);
+    ThrowReporter.report(validationResult);
+
+    // from here on, we know that the validation has passed
+    const dataPoints = (validationResult.value as WorldBankApiV2IndicatorResponse)[1];
+
+    let retVal: DataPoint[] = [];
+    if (dataPoints) { // we might not get anything back
+        retVal = dataPoints
+            .filter(dataPoint => dataPoint.value !== null) // we only include data points for which we have a value
+            .map(dataPoint => new DataPoint(
+                dataPoint.date,
+                dataPoint.value as number
+            ));
     }
-    async getMaleSurvivalToAge65(country: Country, dateRange: string): Promise<DataPoint[]> {
-        // TODO implement
-        throw new Error("Not implemented yet");
-    }
+    return retVal;
+    // This method accepts an indicator name as input as well as some additional parameters. Then, it takes care of fetching, validating, and returning the corresponding data.
+}
+
+// Thanks to the getIndicatorData method above, we can simply implement the other methods of our service as follows:
+
+async getFemalePopulation(country: Country, dateRange: string): Promise<DataPoint[]> {
+    return this.getIndicatorData(WorldBankApiV2Indicators.TOTAL_FEMALE_POPULATION, country, dateRange, 1000);
+}
+
+async getMalePopulation(country: Country, dateRange: string): Promise<DataPoint[]> {
+    return this.getIndicatorData(WorldBankApiV2Indicators.TOTAL_MALE_POPULATION, country, dateRange, 1000);
+}
+
+async getAdultFemaleLiteracy(country: Country, dateRange: string): Promise<DataPoint[]> {
+    return this.getIndicatorData(WorldBankApiV2Indicators.ADULT_FEMALE_LITERACY, country, dateRange, 1000);
+}
+
+async getAdultMaleLiteracy(country: Country, dateRange: string): Promise<DataPoint[]> {
+    return this.getIndicatorData(WorldBankApiV2Indicators.ADULT_MALE_LITERACY, country, dateRange, 1000);
+}
+
+async getFemaleSurvivalToAge65(country: Country, dateRange: string): Promise<DataPoint[]> {
+    return this.getIndicatorData(WorldBankApiV2Indicators.ADULT_FEMALE_SURVIVAL_TO_65, country, dateRange, 1000);
+}
+
+async getLifeExpectancy(country: Country, dateRange: string): Promise<DataPoint[]> {
+    return this.getIndicatorData(WorldBankApiV2Indicators.LIFE_EXPECTANCY, country, dateRange, 1000);
+}
+
+async getMaleSurvivalToAge65(country: Country, dateRange: string): Promise<DataPoint[]> {
+    return this.getIndicatorData(WorldBankApiV2Indicators.ADULT_MALE_SURVIVAL_TO_65, country, dateRange, 1000);
+}
 }
