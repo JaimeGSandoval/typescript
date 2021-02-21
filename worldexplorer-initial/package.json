@@ -18,6 +18,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@types/chart.js": "^2.9.30",
+    "chart.js": "^2.9.4",
     "io-ts": "1.4.2"
   }
 }
