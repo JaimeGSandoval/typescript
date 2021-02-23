@@ -233,5 +233,6 @@ export class WorldExplorerHTMLView implements WorldExplorerView {
                 }
             }
         });
+           console.log('CHART', this._chart.data);
     }
 }
