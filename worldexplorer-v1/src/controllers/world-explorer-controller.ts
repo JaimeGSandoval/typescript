@@ -21,14 +21,14 @@ export class WorldExplorerControllerImpl implements WorldExplorerController {
         this._populationService = populationService;
         this._view = view;
 
-        this.loadCountries()
+        this.loadCountries() // Fires when app starts
             .then(() => console.log("WorldExplorer - Loaded", this))
             .catch(error => {
                 console.error("WorldExplorer - Controller failed to load. Error: ", error);
                 this._view.displayErrorMessage("WorldExplorer failed to load. Please contact IT support! ;-)");
             });
 
-        this.loadYears();
+        this.loadYears(); // Fires when app starts
     }
 
     async loadCountries(): Promise<void> {
