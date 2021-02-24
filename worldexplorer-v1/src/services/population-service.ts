@@ -67,15 +67,17 @@ export class PopulationServiceImpl implements PopulationService {
         let jsonContent: unknown = await this.getJsonContent(checkedResponse);
 
         const validationResult = worldBankApiV2CountryResponseValidator.decode(jsonContent);
-
+        console.log('VALIDATOR', validationResult.value);
         // throw an error if validation fails
         ThrowReporter.report(validationResult);
 
         console.log("Response received and validated");
 
         // from here on, we know that the validation has passed
-        const countries = (validationResult.value as WorldBankApiV2CountryResponse)[1];
 
+        // This gives the object its shape
+        const countries = (validationResult.value as WorldBankApiV2CountryResponse)[1];
+        console.log('SHAPE', countries)
         console.log(`Found ${countries.length} countries`);
 
         let retVal: Country[] = countries.map(country =>
@@ -133,31 +135,31 @@ export class PopulationServiceImpl implements PopulationService {
         return `${this.countriesApiBaseUrl}/${countryCode}/${WorldBankApiV2.INDICATORS_API_PREFIX}/${indicator}`;
     }
 
-    async getTotalPopulation(country: Country, dateRange: string): Promise<DataPoint[]> {
-        const response: Response = await fetch(`${this.getBaseIndicatorApiUrlFor(WorldBankApiV2Indicators.TOTAL_POPULATION, country)}?${WorldBankApiV2Params.FORMAT}=${WorldBankApiV2Formats.JSON}&${WorldBankApiV2Params.PER_PAGE}=1000&${WorldBankApiV2Params.DATE}=${dateRange}`);
+    // async getTotalPopulation(country: Country, dateRange: string): Promise<DataPoint[]> {
+    //     const response: Response = await fetch(`${this.getBaseIndicatorApiUrlFor(WorldBankApiV2Indicators.TOTAL_POPULATION, country)}?${WorldBankApiV2Params.FORMAT}=${WorldBankApiV2Formats.JSON}&${WorldBankApiV2Params.PER_PAGE}=1000&${WorldBankApiV2Params.DATE}=${dateRange}`);
+    //     console.log('TEST RESPONSE', response);
+    //     const checkedResponse: Response = await this.checkResponseStatus(response);
+    //     console.log('CHECKED RESPONSE', checkedResponse);
+    //     let jsonContent: unknown = await this.getJsonContent(checkedResponse);
+    //     console.log('JSON CONTENT', jsonContent);
+    //     const validationResult = worldBankApiV2IndicatorResponseValidator.decode(jsonContent);
 
-        const checkedResponse: Response = await this.checkResponseStatus(response);
+    //     ThrowReporter.report(validationResult);
 
-        let jsonContent: unknown = await this.getJsonContent(checkedResponse);
+    //     // from here on, we know that the validation has passed
+    //     const dataPoints = (validationResult.value as WorldBankApiV2IndicatorResponse)[1];
 
-        const validationResult = worldBankApiV2IndicatorResponseValidator.decode(jsonContent);
-
-        ThrowReporter.report(validationResult);
-
-        // from here on, we know that the validation has passed
-        const dataPoints = (validationResult.value as WorldBankApiV2IndicatorResponse)[1];
-
-        let retVal: DataPoint[] = [];
-        if (dataPoints) { // we might not get anything back
-            retVal = dataPoints
-                .filter(dataPoint => dataPoint.value !== null) // we only include data points for which we have a value
-                .map(dataPoint => new DataPoint(
-                    dataPoint.date,
-                    dataPoint.value as number
-                ));
-        }
-        return retVal;
-    }
+    //     let retVal: DataPoint[] = [];
+    //     if (dataPoints) { // we might not get anything back
+    //         retVal = dataPoints
+    //             .filter(dataPoint => dataPoint.value !== null) // we only include data points for which we have a value
+    //             .map(dataPoint => new DataPoint(
+    //                 dataPoint.date,
+    //                 dataPoint.value as number
+    //             ));
+    //     }
+    //     return retVal;
+    // }
 
     async getIndicatorData(indicator: WorldBankApiV2Indicators, country: Country, dateRange: string, perPage: number): Promise<DataPoint[]> {
         const response: Response = await fetch(`${this.getBaseIndicatorApiUrlFor(indicator, country)}?${WorldBankApiV2Params.FORMAT}=${WorldBankApiV2Formats.JSON}&${WorldBankApiV2Params.PER_PAGE}=${perPage}&${WorldBankApiV2Params.DATE}=${dateRange}`);
@@ -175,6 +177,7 @@ export class PopulationServiceImpl implements PopulationService {
 
         let retVal: DataPoint[] = [];
         if (dataPoints) { // we might not get anything back
+            console.log('DATA POINTS', dataPoints)
             retVal = dataPoints
                 .filter(dataPoint => dataPoint.value !== null) // we only include data points for which we have a value
                 .map(dataPoint => new DataPoint(
@@ -182,7 +185,13 @@ export class PopulationServiceImpl implements PopulationService {
                     dataPoint.value as number
                 ));
         }
+        console.log('RETVAL', retVal);
         return retVal;
+    }
+
+    async getTotalPopulation(country: Country, dateRange: string): Promise<DataPoint[]> {
+        return this.getIndicatorData(WorldBankApiV2Indicators.TOTAL_POPULATION, country, dateRange,
+        1000);
     }
 
     async getFemalePopulation(country: Country, dateRange: string): Promise<DataPoint[]> {

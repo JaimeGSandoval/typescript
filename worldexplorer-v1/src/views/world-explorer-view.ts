@@ -177,13 +177,14 @@ export class WorldExplorerHTMLView implements WorldExplorerView {
             this._chart.clear();
             this._chart.destroy();
         }
-
+        console.log('DETAILS', chartDetails)
         this._chart = new Chart(this._canvas, {
             type: chartDetails.chartType,
             data: {
                 labels: dataLabels,
                 datasets: [
                     {
+                        data: dataValues,
                         label: chartDetails.dataLabel,
                         fill: false,
                         lineTension: 0.1,
@@ -200,8 +201,7 @@ export class WorldExplorerHTMLView implements WorldExplorerView {
                         pointHoverBorderColor: "rgba(220,220,220,1)",
                         pointHoverBorderWidth: 2,
                         pointRadius: 1,
-                        pointHitRadius: 10,
-                        data: dataValues
+                        pointHitRadius: 10
                     }
                 ]
             },
