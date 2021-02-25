@@ -3,3 +3,6 @@ dist
 .cache
 .vscode
 .tmp
+.txt
+typescript-notes
+testing-notes

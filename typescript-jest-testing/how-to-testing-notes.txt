@@ -1,0 +1,37 @@
+-- Using npm script hooks
+At this point, we could add a pre script to our existing build script in package.json, in order to execute our test suite before building the application using Parcel. With that in place, we'll not only be sure that our code compiles, but our confidence will be increased because our application will only be built if the whole test suite passes. Here's an example script that we could use: "prebuild": "npm run test".
+
+This works because npm supports script hooks.
+
+When npm finds a script with the same name as another, but with the pre prefix, then it executes that script before the other one. It is also possible to define a script that will be automatically executed after another one using the "post" prefix. You can learn more about hooks here: https://medium.com/yld-engineering-blog/using-npm-pre-and-post-hooks-d89dcf2d86cf.
+
+
+-- We recommend putting tests next to the code that they're testing and using the .spec.ts filename suffix. This is a common practice that makes it very straightforward to find the tests. Alternatively, you can use the .test.ts filename suffix.
+
+
+--  Config Example:
+module.exports = {
+    roots: [
+        "<rootDir>/src"
+    ],
+
+    preset: 'ts-jest',
+    testEnvironment: 'node',
+    verbose: false,
+    collectCoverage: false,
+    globals: {
+        'ts-jest': {
+            // reference: https://kulshekhar.github.io/ts-
+            jest/user/config
+        }
+    }
+};
+
+This configuration tells Jest to use its TypeScript preset and also tells it that our source code can be found under src. Finally, it also sets the test environment to node, which is where we will execute Jest.
+
+--  We recommend putting tests next to the code that they're testing and using the .spec.ts filename suffix. This is a common practice that makes it very straightforward to find the tests. Alternatively, you can use the .test.ts filename suffix.
+
+--  If you want to focus on a single test, you can replace test or it with test.only or it.only. When you do so, Jest will execute only that test. This is useful when troubleshooting issues with specific test cases. You can also use describe.only to limit the execution to a given test group.
+
+
+--  You can also use the fail('message') Jest function to force a test to fail in some situations. This can sometimes be useful, for example, if you don't expect your code to fall into some branch during a specific test.
