@@ -8,7 +8,9 @@ describe('population service', () => {
         sut = new PopulationServiceImpl('https://foo'); // valid URL
     });
 
-    // With the preceding code, we've defined a dedicated scope for our tests using the describe function. You can find its documentation here: https://jestjs.io/docs/en/api#describename-fn. Basically, describe creates a group for a set of tests that we could also call a test suite, but we'll keep using that term to refer to the whole set of tests of the application.  Within the describe block, we've created a variable corresponding to the unit that we want to focus on: PopulationService. We've called the variable sut, which stands for system under test. This is a common naming convention used to refer to the unit that we're testing.
+    // With the preceding code, we've defined a dedicated scope for our tests using the describe function. You can find its documentation here: https://jestjs.io/docs/en/api#describename-fn. Basically, describe creates a group for a set of tests that we could also call a test suite, but we'll keep using that term to refer to the whole set of tests of the application.
+
+    // Within the describe block, we've created a variable corresponding to the unit that we want to focus on: PopulationService. We've called the variable sut, which stands for System Under Test. This is a common naming convention used to refer to the unit that we're testing.
 
     // Finally, with the beforeEach function, we've made sure that a new (that is, clean) instance of our PopulationServiceImpl class will be created before each test is executed. Basically, beforeEach is a part of the setup and teardown functions provided by Jest. There are other setup and teardown methods that can be used, for example, beforeAll, afterAll, afterEach, and so on. You can find the complete list here: https://jestjs.io/docs/en/setup-teardown.
     // Blocks using describe can be nested!
@@ -24,10 +26,16 @@ describe('population service', () => {
             // We've used the it function and have started our description using should. This way, the test description becomes easily readable.
             expect(new PopulationServiceImpl('https://foo')).toBeInstanceOf(PopulationServiceImpl);
             expect(new PopulationServiceImpl('https://foo/')).toBeInstanceOf(PopulationServiceImpl);
+
             expect(new PopulationServiceImpl('http://foo')).toBeInstanceOf(PopulationServiceImpl);
             expect(new PopulationServiceImpl('http://foo/')).toBeInstanceOf(PopulationServiceImpl);
+
+            expect(new PopulationServiceImpl('HTTP://foo')).toBeInstanceOf(PopulationServiceImpl);
             expect(new PopulationServiceImpl('HTTP://foo/')).toBeInstanceOf(PopulationServiceImpl);
+
+            expect(new PopulationServiceImpl('HTTPS://foo')).toBeInstanceOf(PopulationServiceImpl);
             expect(new PopulationServiceImpl('HTTPS://foo/')).toBeInstanceOf(PopulationServiceImpl);
+
         });
 
         // We can then look at some negative cases:
@@ -37,18 +45,18 @@ describe('population service', () => {
             expect(() => new PopulationServiceImpl('     ')).toThrow();
         });
 
-        // Here's another one that checks whether our constructor correctly checks invalid prefixes:
+        // // Here's another one that checks whether our constructor correctly checks invalid prefixes:
         test('should not accept wrong prefix', () => {
             expect(() => new PopulationServiceImpl('foo://')).toThrow();
             expect(() => new PopulationServiceImpl('bar')).toThrow();
         });
 
-        // Finally, we also need to try passing null or undefined:
+        // // Finally, we also need to try passing null or undefined:
         test('should not accept null input', () => {
             // This way, we know that our service does not accept any input.
             expect(() => new PopulationServiceImpl(null as unknown as string)).toThrow();
             expect(() => new PopulationServiceImpl(undefined as unknown as string)).toThrow();
-            // Here, we've leveraged the unknown TypeScript 3 type with a type cast to bypass the compiler checks. Without this, the code wouldn't compile because we're not supposed to be able to pass null or undefined to the constructor function. You can use this trick to pass anything you want to a function. Don't forget to validate this, especially for library code, since you never know how your code will actually be used at runtime, when types mostly disappear.
+        //     // Here, we've leveraged the unknown TypeScript 3 type with a type cast to bypass the compiler checks. Without this, the code wouldn't compile because we're not supposed to be able to pass null or undefined to the constructor function. You can use this trick to pass anything you want to a function. Don't forget to validate this, especially for library code, since you never know how your code will actually be used at runtime, when types mostly disappear.
         });
     });
 
@@ -72,8 +80,8 @@ describe('population service', () => {
             }))).rejects.toThrow();
         });
 
-        // Finally, let's not forget to test the positive case:
-        // This time, since we provide valid input to the function, we, of course, verify that the promise resolves to the expected value.
+    //     // Finally, let's not forget to test the positive case:
+    //     // This time, since we provide valid input to the function, we, of course, verify that the promise resolves to the expected value.
         it('should succeed if the response has a 2xx status code', async () => {
             let fakeResponse: Response = new Response(null, {
                 status: 200
@@ -119,7 +127,7 @@ describe('population service', () => {
             "longitude": "69.1761",
             "latitude": "34.5228"
         }]];
-        // The variable represents a valid response for the Fetch call. Once added, you can now easily implement a positive test for getAllCountries as follows:
+    //     // The variable represents a valid response for the Fetch call. Once added, you can now easily implement a positive test for getAllCountries as follows:
 
         it('should succeed and return countries when the request succeeds and a valid response is received', async () => {
             fetchMock.mockResponse(

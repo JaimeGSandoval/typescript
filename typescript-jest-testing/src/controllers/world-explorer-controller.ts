@@ -52,7 +52,7 @@ export class WorldExplorerControllerImpl implements WorldExplorerController {
 
         const yearGenerator = this.generateYears(2000, 20);
 
-        let done: boolean = false;
+        let done;
         while (!done) {
             const res = yearGenerator.next();
             done = res.done;
