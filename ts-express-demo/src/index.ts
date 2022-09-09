@@ -3,6 +3,8 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import { itemsRouter } from './items/items.router';
+import { errorHandler } from './middleware/error.middleware';
+import { notFoundHandler } from './middleware/not-found.middleware';
 
 dotenv.config();
 
@@ -29,5 +31,11 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/menu/items', itemsRouter);
+
+// Your application can't reach any routes you define after mounting the errorHandler middleware function because you close the request-response cycle within errorHandler by sending a response to the client. As such, you must mount the errorHandler middleware function after you have mounted all the controller functions of your application.
+app.use(errorHandler);
+
+// But, as noted earlier, errorHandler won't catch 404 errors. However, you can catch these errors by making notFoundHandler the last middleware function that you mount, which effectively creates a catch-all handler for your app.
+app.use(notFoundHandler);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
